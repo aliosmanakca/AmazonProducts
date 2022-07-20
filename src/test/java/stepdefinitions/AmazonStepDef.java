@@ -23,12 +23,12 @@ public class AmazonStepDef {
         System.setProperty("webdriver.chrome.driver","C:\\Users\\akcaa\\Documents\\selenium_dependencies\\drivers\\chromedriver.exe");
         //WebDriverManager.chromedriver().setup();
     }
-    /*static ChromeOptions options = new ChromeOptions();
+    static ChromeOptions options = new ChromeOptions();
     static {
         options.addArguments("--disable-blink-features");
         options.addArguments("--disable-blink-features=AutomationControlled");
-    }*/
-    static WebDriver driver = new ChromeDriver(); //new ChromeDriver(options);
+    }
+    static WebDriver driver = new ChromeDriver(options); //new ChromeDriver(options);
 
    /* static {
         WebDriverManager.chromedriver().setup();
@@ -60,7 +60,7 @@ public class AmazonStepDef {
         int starNumber = 0;
         double profit = 0;
 
-        String path = "src/test/resources/test_data/deneme2.xlsx";
+        String path = "src/test/resources/test_data/upc.xlsx";
         FileInputStream fis = new FileInputStream(path);
         Workbook workbook = WorkbookFactory.create(fis);
 
@@ -126,7 +126,7 @@ public class AmazonStepDef {
                 searchBox3.clear();
             }
 
-            System.out.println("calisti = " + (i+1) + " price " + productPrice + "  upc:" + upc);
+            System.out.println("raw = " + (i+1) + " price " + productPrice + "  upc:" + upc);
 
             System.gc();
             System.runFinalization();
