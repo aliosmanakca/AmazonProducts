@@ -27,23 +27,20 @@ public class AmazonStepDef {
     static {
         options.addArguments("--disable-blink-features");
         options.addArguments("--disable-blink-features=AutomationControlled");
+        //options.addArguments("--headless");
     }
-    static WebDriver driver = new ChromeDriver(options); //new ChromeDriver(options);
-
-   /* static {
-        WebDriverManager.chromedriver().setup();
-    }
-    static WebDriver driver = new ChromeDriver(new ChromeOptions().addArguments("--headless"));*/
+    static WebDriver driver = new ChromeDriver(options);
 
 
     //Actions actions = new Actions(driver);
 
     @Given("user goes to amazon")
-    public void user_goes_to_amazon() {
+    public void user_goes_to_amazon() throws InterruptedException {
        // driver = driver.Chrome(options=options, executable_path=r'C:\WebDrivers\chromedriver.exe')
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.navigate().to("https://www.amazon.ca/");
+        Thread.sleep(2000);
         try {
             driver.findElement(By.xpath("//*[text()='Amazon']")).click();
         }catch (Exception NoSuchElementException){
@@ -76,13 +73,13 @@ public class AmazonStepDef {
             try {
                 WebElement searchBox = driver.findElement(By.cssSelector("#twotabsearchtextbox"));
                 workbook.getSheet("Sheet1").getRow(i).getCell(0).setCellType(CellType.STRING);
-                upc= workbook.getSheet("Sheet1").getRow(i).getCell(0).getStringCellValue(); // upcCell = workbook.getSheet("Sheet1").getRow(i).getCell(0);
-                searchBox.sendKeys(upc.replaceAll("[^0-9]","") + Keys.ENTER); // searchBox.sendKeys(upcCell.toString().replaceAll("[^0-9]","") + Keys.ENTER);
+                upc= workbook.getSheet("Sheet1").getRow(i).getCell(0).getStringCellValue();
+                searchBox.sendKeys(upc.replaceAll("[^0-9]","") + Keys.ENTER);
             }catch (Exception NoSuchElementException){
                 driver.navigate().back();
                 WebElement searchBox1 = driver.findElement(By.cssSelector("#twotabsearchtextbox"));
                 workbook.getSheet("Sheet1").getRow(i).getCell(0).setCellType(CellType.STRING);
-                upc= workbook.getSheet("Sheet1").getRow(i).getCell(0).getStringCellValue();  //upcCell= workbook.getSheet("Sheet1").getRow(i).getCell(0);
+                upc= workbook.getSheet("Sheet1").getRow(i).getCell(0).getStringCellValue();
                 searchBox1.sendKeys(upc.replaceAll("[^0-9]","") + Keys.ENTER);
             }
 
@@ -113,8 +110,7 @@ public class AmazonStepDef {
             profit = amazonPrice - (amazonFee+productPrice);
 
             if (profit>productPrice/5 && starNumber>30 && productPrice<=25) {
-                writer.write(upc + "  ,  " + productPrice + "\n"); // writer.write(upcCell.getStringCellValue().replaceAll("[^0-9]","") + "  ,  " + productPrice + "\n");
-                //System.out.println("wanted product = " + upcCell.toString() + "star number = " + starNumber + " amazon price : " + amazonPrice);
+                writer.write(upc + "  ,  " + productPrice + "\n");
             }
 
             try {
